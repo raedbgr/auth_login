@@ -1,3 +1,4 @@
+import 'package:auth_login/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'auth/login_page.dart';
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login Screen',
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
