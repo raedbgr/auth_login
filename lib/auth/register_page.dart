@@ -1,8 +1,11 @@
 import 'package:auth_login/auth/login_page.dart';
 import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
+import 'package:auth_login/controller.dart';
+import 'package:auth_login/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -12,8 +15,9 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _passVisibility = true;
+  final TextEditingController _pwdController = TextEditingController();
+  final MyController _myController = Get.put(MyController());
+  bool _pwdVisibility = true;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +55,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 10),
                   // password controller
                   TextField(
-                    controller: _passwordController,
-                    obscureText: _passVisibility,
+                    controller: _pwdController,
+                    obscureText: _pwdVisibility,
                     decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
@@ -64,25 +68,25 @@ class _RegisterPageState extends State<RegisterPage> {
                         fillColor: Colors.grey.shade200,
                         hintText: 'Password',
                         hintStyle: TextStyle(color: Colors.grey.shade500),
-                        suffixIcon: _passVisibility
+                        suffixIcon: _pwdVisibility
                             ? IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _passVisibility = false;
+                                    _pwdVisibility = false;
                                   });
                                 },
                                 icon: Icon(Icons.visibility_off, color: Colors.grey.shade600,))
                             : IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _passVisibility = true;
+                                    _pwdVisibility = true;
                                   });
                                 },
                                 icon: Icon(Icons.visibility, color: Colors.grey.shade600,))),
                   ),
                   const SizedBox(height: 25),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: _myController.signUp(_usernameController.text, _emailController.text, _pwdController.text),
                     child: Container(
                       width: 250,
                       padding: const EdgeInsets.all(25),

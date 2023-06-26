@@ -1,6 +1,9 @@
 import 'package:auth_login/auth/register_page.dart';
 import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
+import 'package:auth_login/controller.dart';
+import 'package:auth_login/home/home_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,8 +14,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _passVisibility = true;
+  final TextEditingController _pwdController = TextEditingController();
+  final MyController _myController = Get.put(MyController());
+  bool _pwdVisibility = true;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +48,8 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 10),
                   // password controller
                   TextField(
-                    controller: _passwordController,
-                    obscureText: _passVisibility,
+                    controller: _pwdController,
+                    obscureText: _pwdVisibility,
                     decoration: InputDecoration(
                         enabledBorder: const OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
@@ -57,25 +61,36 @@ class _LoginPageState extends State<LoginPage> {
                         fillColor: Colors.grey.shade200,
                         hintText: 'Password',
                         hintStyle: TextStyle(color: Colors.grey.shade500),
-                        suffixIcon: _passVisibility
+                        suffixIcon: _pwdVisibility
                             ? IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _passVisibility = false;
+                                    _pwdVisibility = false;
                                   });
                                 },
                                 icon: Icon(Icons.visibility_off, color: Colors.grey.shade600,))
                             : IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _passVisibility = true;
+                                    _pwdVisibility = true;
                                   });
                                 },
                                 icon: Icon(Icons.visibility, color: Colors.grey.shade600,))),
                   ),
                   const SizedBox(height: 25),
+                  GestureDetector(
+                    onTap: (){},
+                      child:
+                      const Text(
+                          'Forgot Password ?',
+                        style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold,
+                        ),
+                      )
+                  ),
+                  const SizedBox(height: 25),
                   MaterialButton(
-                    onPressed: () {},
+                    onPressed: _myController.signIn(_emailController.text, _pwdController.text),
                     child: Container(
                       width: 250,
                       padding: const EdgeInsets.all(25),
@@ -110,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: const Text(
                         'Register now',
                         style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ]),

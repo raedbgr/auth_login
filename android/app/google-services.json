@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "514656901571",
+    "project_id": "auth-login-f5d5c",
+    "storage_bucket": "auth-login-f5d5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:514656901571:android:bac030885018c2df734576",
+        "android_client_info": {
+          "package_name": "com.example.auth_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "514656901571-g9k9i630pjmp98k5jlik6ulg6ufdsdep.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7pXPfxlWxtuXHnWhfEbpdjbmbUxtMFrs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "514656901571-g9k9i630pjmp98k5jlik6ulg6ufdsdep.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
