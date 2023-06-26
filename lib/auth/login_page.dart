@@ -68,29 +68,38 @@ class _LoginPageState extends State<LoginPage> {
                                     _pwdVisibility = false;
                                   });
                                 },
-                                icon: Icon(Icons.visibility_off, color: Colors.grey.shade600,))
+                                icon: Icon(
+                                  Icons.visibility_off,
+                                  color: Colors.grey.shade600,
+                                ))
                             : IconButton(
                                 onPressed: () {
                                   setState(() {
                                     _pwdVisibility = true;
                                   });
                                 },
-                                icon: Icon(Icons.visibility, color: Colors.grey.shade600,))),
+                                icon: Icon(
+                                  Icons.visibility,
+                                  color: Colors.grey.shade600,
+                                ))),
                   ),
                   const SizedBox(height: 25),
                   GestureDetector(
-                    onTap: (){},
-                      child:
-                      const Text(
-                          'Forgot Password ?',
+                      onTap: () {},
+                      child: const Text(
+                        'Forgot Password ?',
                         style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
-                      )
-                  ),
+                      )),
                   const SizedBox(height: 25),
                   MaterialButton(
-                    onPressed: _myController.signIn(_emailController.text, _pwdController.text),
+                    onPressed: () {
+                      _myController.signIn(
+                          _emailController.text, _pwdController.text, context);
+                      Get.offAll(HomePage());
+                    },
                     child: Container(
                       width: 250,
                       padding: const EdgeInsets.all(25),

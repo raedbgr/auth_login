@@ -6,36 +6,46 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'auth/login_page.dart';
 
+// void showLoading(){
+//   showDialog(
+//
+//       context: navigatorKey.currentContext!,
+//       builder: (_) {
+//         return const Center(
+//           child: CircularProgressIndicator(),
+//         );
+//       });
+// }
+
 class MyController extends GetxController {
   List<ALuser> userList = <ALuser>[];
   ALuser currentUser = ALuser();
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser;
 
-  signUp (String username, String emailAddress, String password) async {
-    showDialog(context: navigatorKey.currentContext!, builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    });
-    
+  signUp(String username, String emailAddress, String password, ctx) async {
+    showDialog(
+        context: ctx,
+        builder: (_) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
     try {
-      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      final credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
 
       DateTime dateTime = DateTime.now();
 
-      currentUser.id = user.uid;
       currentUser.isAdmin = false;
       currentUser.username = username;
       currentUser.email = emailAddress;
       currentUser.pwd = password;
-      currentUser.date = dateTime as String?;
+      // currentUser.date = dateTime as String?;
       currentUser.coins = 10;
       userList.add(currentUser);
-
-      Get.offAll(LoginPage());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -46,22 +56,21 @@ class MyController extends GetxController {
       print(e);
     }
 
-    Navigator.pop(navigatorKey.currentContext!);
+    Navigator.pop(ctx);
   }
 
-  signIn (String emailAddress, String password) async {
-    showDialog(context: navigatorKey.currentContext!, builder: (context) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    });
+  signIn(String emailAddress, String password, ctx) async {
+    showDialog(
+        context: ctx,
+        builder: (_) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
 
     try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailAddress,
-          password: password
-      );
-      Get.offAll(HomePage());
+      final credential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -70,6 +79,6 @@ class MyController extends GetxController {
       }
     }
 
-    Navigator.pop(navigatorKey.currentContext!);
+    Navigator.pop(ctx);
   }
 }

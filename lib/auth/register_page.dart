@@ -75,18 +75,28 @@ class _RegisterPageState extends State<RegisterPage> {
                                     _pwdVisibility = false;
                                   });
                                 },
-                                icon: Icon(Icons.visibility_off, color: Colors.grey.shade600,))
+                                icon: Icon(
+                                  Icons.visibility_off,
+                                  color: Colors.grey.shade600,
+                                ))
                             : IconButton(
                                 onPressed: () {
                                   setState(() {
                                     _pwdVisibility = true;
                                   });
                                 },
-                                icon: Icon(Icons.visibility, color: Colors.grey.shade600,))),
+                                icon: Icon(
+                                  Icons.visibility,
+                                  color: Colors.grey.shade600,
+                                ))),
                   ),
                   const SizedBox(height: 25),
                   MaterialButton(
-                    onPressed: _myController.signUp(_usernameController.text, _emailController.text, _pwdController.text),
+                    onPressed: () {
+                      _myController.signUp(_usernameController.text,
+                          _emailController.text, _pwdController.text, context);
+                      Get.offAll(LoginPage());
+                    },
                     child: Container(
                       width: 250,
                       padding: const EdgeInsets.all(25),
@@ -121,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       child: const Text(
                         'Login now',
                         style: TextStyle(
-                            color: Colors.blue, fontWeight: FontWeight.bold),
+                            color: Colors.black, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ]),

@@ -1,5 +1,7 @@
+import 'package:auth_login/auth/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -7,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +25,15 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Center(
         child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               MaterialButton(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                  },
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  Get.offAll(LoginPage());
+                },
                 child: Container(
                   width: 250,
                   padding: const EdgeInsets.all(25),
@@ -49,15 +52,26 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              const SizedBox(height: 10,),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Logged in as ', style: TextStyle(color: Colors.grey.shade700),),
-                  Text(user.email!, style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)
+                  Text(
+                    'Logged in as ',
+                    style: TextStyle(color: Colors.grey.shade700),
+                  ),
+                  Text(
+                    user!.email!,
+                    style: const TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
-              const SizedBox(height: 10,)
+              const SizedBox(
+                height: 10,
+              )
             ],
           ),
         ),
