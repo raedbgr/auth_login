@@ -17,47 +17,56 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('My Home'),
+        title: const Text('My Home',),
         backgroundColor: Colors.grey.shade900,
-        actions: [
-          IconButton(
-              onPressed: () async {
-                showDialog(context: context, builder: (context) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                });
-                await FirebaseAuth.instance.signOut();
-                Navigator.pop(context);
-              },
-              icon: const Icon(Icons.logout))
-        ],
       ),
       drawer: Drawer(
         backgroundColor: Colors.grey.shade900,
-        child: Center(
-          child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ListTile(
-                  leading: Icon(Icons.account_circle_outlined, color: Colors.white,),
-                  title: Text('Profile', style: TextStyle(color: Colors.white),),
-                  onTap: () {
-                    Get.to(Profile());
-                  },
-                )
-              ],
+        child: Column(
+          children: [
+            SizedBox(height: 20,),
+            DrawerHeader(
+                child: Icon(Icons. person, size: 120, color: Colors.grey.shade200,)
             ),
-          ),
+            SizedBox(height: 100,),
+            Center(
+              child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ListTile(
+                      leading: Icon(Icons.account_circle_outlined, color: Colors.grey.shade200, size: 25,),
+                      title: Text('PROFILE', style: TextStyle(color: Colors.grey.shade200, fontSize: 15),),
+                      onTap: () {
+                        Get.to(Profile());
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.logout, color: Colors.grey.shade200, size: 25,),
+                      title: Text('LOGOUT', style: TextStyle(color: Colors.grey.shade200, fontSize: 15),),
+                      onTap: () async {
+                        showDialog(context: context, builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.pop(context);
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,

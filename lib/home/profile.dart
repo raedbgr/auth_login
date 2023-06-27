@@ -1,8 +1,10 @@
 import 'package:auth_login/controller.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
+  final user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -20,36 +22,51 @@ class Profile extends StatelessWidget {
         ),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 50,),
+          Center(
+            child: Icon(Icons.person, size: 120,),
+          ),
+          SizedBox(height: 10,),
+          Center(
+            child: Text(
+              user!.email!,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey.shade700),
+            ),
+          ),
+          const SizedBox(height: 50,),
           Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              height: 200,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                border: Border.all(color: Colors.grey.shade100, width: 2),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(Icons.account_circle, size: 100,),
-                      SizedBox(width: 15,),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Username : example123'),
-                          SizedBox(height: 15,),
-                          Text('Email : example@gmail.com'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              padding: EdgeInsets.only(left: 25),
+            child: Text(
+                'My Details',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+          ),
+          const SizedBox(height: 10,),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.only(left: 15, bottom: 15),
+            margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        'username',
+                      style: TextStyle(color: Colors.grey.shade500),
+                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit, color: Colors.grey.shade500,))
+                  ],
+                ),
+                Text('example'),
+              ],
             ),
           ),
         ],
