@@ -2,10 +2,8 @@ import 'package:auth_login/auth/login_page.dart';
 import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
-import 'package:auth_login/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

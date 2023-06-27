@@ -3,7 +3,6 @@ import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
 import 'package:auth_login/home/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -92,13 +91,13 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
-                      )),
+                      )
+                  ),
                   const SizedBox(height: 25),
                   MaterialButton(
                     onPressed: () {
                       _myController.signIn(
                           _emailController.text, _pwdController.text, context);
-                      Get.offAll(HomePage());
                     },
                     child: Container(
                       width: 250,

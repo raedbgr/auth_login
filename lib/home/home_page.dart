@@ -19,42 +19,30 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text('My Home'),
         backgroundColor: Colors.grey.shade900,
-      ),
-      drawer: Drawer(
-        backgroundColor: Colors.grey.shade900,
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.account_circle_outlined)
+        ),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                showDialog(context: context, builder: (context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                });
+                await FirebaseAuth.instance.signOut();
+                Navigator.pop(context);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              MaterialButton(
-                onPressed: () async {
-                  await FirebaseAuth.instance.signOut();
-                  Get.offAll(LoginPage());
-                },
-                child: Container(
-                  width: 250,
-                  padding: const EdgeInsets.all(25),
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Sign Out',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -64,8 +52,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Text(
                     user!.email!,
-                    style: const TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.grey.shade800, fontWeight: FontWeight.bold),
                   )
                 ],
               ),
