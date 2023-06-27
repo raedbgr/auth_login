@@ -1,4 +1,4 @@
-import 'package:auth_login/auth/login_page.dart';
+import 'package:auth_login/home/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,10 +19,6 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         title: const Text('My Home'),
         backgroundColor: Colors.grey.shade900,
-        leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.account_circle_outlined)
-        ),
         actions: [
           IconButton(
               onPressed: () async {
@@ -34,8 +30,28 @@ class _HomePageState extends State<HomePage> {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pop(context);
               },
-              icon: Icon(Icons.logout))
+              icon: const Icon(Icons.logout))
         ],
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.grey.shade900,
+        child: Center(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 50),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ListTile(
+                  leading: Icon(Icons.account_circle_outlined, color: Colors.white,),
+                  title: Text('Profile', style: TextStyle(color: Colors.white),),
+                  onTap: () {
+                    Get.to(Profile());
+                  },
+                )
+              ],
+            ),
+          ),
+        ),
       ),
       body: Center(
         child: Padding(
