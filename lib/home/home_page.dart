@@ -1,3 +1,4 @@
+import 'package:auth_login/controller.dart';
 import 'package:auth_login/home/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser;
+  final MyController myController = Get.put(MyController());
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +26,14 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.grey.shade900,
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             DrawerHeader(
                 child: Icon(Icons. person, size: 120, color: Colors.grey.shade200,)
             ),
-            SizedBox(height: 100,),
+            const SizedBox(height: 100,),
             Center(
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

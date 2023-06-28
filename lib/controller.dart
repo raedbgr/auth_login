@@ -9,6 +9,7 @@ class MyController extends GetxController {
   ALuser currentUser = ALuser();
   final user = FirebaseAuth.instance.currentUser;
 
+
   signUp(String username, String emailAddress, String password, ctx) async {
     showDialog(
         context: ctx,
@@ -19,14 +20,14 @@ class MyController extends GetxController {
         });
     try {
       final credential =
-          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
 
       DateTime dateTime = DateTime.now();
       String formatedDateTime =
-          DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
+      DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
 
       currentUser.isAdmin = false;
       currentUser.username = username;
@@ -37,9 +38,11 @@ class MyController extends GetxController {
       userList.add(currentUser);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        const snackBar = SnackBar(content: Text('The password provided is too weak.'));
+        ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        const snackBar = SnackBar(content: Text('The account already exists for that email.'));
+        ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       }
     } catch (e) {
       print(e);
@@ -62,12 +65,32 @@ class MyController extends GetxController {
           .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        const snackBar = SnackBar(content: Text('No user found for that email.'));
+        ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        const snackBar = SnackBar(content: Text('Wrong password provided for that user.'));
+        ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       }
     }
 
     Navigator.pop(ctx);
+  }
+
+  Future resetPasswrd (String emailAddress, ctx, controller) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
+      showDialog(
+        context: ctx,
+        builder: (ctx) {
+          return const AlertDialog(
+            content: Text('Password reset link sent to your email'),
+          );
+        },
+      );
+      controller.clear();
+    } on FirebaseAuthException catch (e) {
+      final snackBar = SnackBar(content: Text(e.message.toString()));
+      ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
+    }
   }
 }

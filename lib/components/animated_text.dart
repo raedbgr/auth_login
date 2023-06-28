@@ -5,8 +5,8 @@ class MyAnimatedText extends StatelessWidget {
   final String text;
 
   const MyAnimatedText({
-   required this.text,
-});
+    required this.text,
+  });
 
   @override
   Widget build(BuildContext context) {

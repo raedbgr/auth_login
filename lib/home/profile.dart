@@ -1,4 +1,3 @@
-import 'package:auth_login/controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,23 +11,23 @@ class Profile extends StatelessWidget {
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade900,
-        title: Text('Profile'),
+        title: const Text('Profile'),
         centerTitle: true,
         leading: IconButton(
             onPressed: () {
               Get.back();
             },
-            icon: Icon(Icons.arrow_back)
+            icon: const Icon(Icons.arrow_back)
         ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 50,),
-          Center(
+          const Center(
             child: Icon(Icons.person, size: 120,),
           ),
-          SizedBox(height: 10,),
+          const SizedBox(height: 10,),
           Center(
             child: Text(
               user!.email!,
@@ -38,9 +37,9 @@ class Profile extends StatelessWidget {
           ),
           const SizedBox(height: 50,),
           Padding(
-              padding: EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25),
             child: Text(
-                'My Details',
+              'My Details',
               style: TextStyle(color: Colors.grey.shade600),
             ),
           ),
@@ -59,13 +58,13 @@ class Profile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                        'username',
+                      'username',
                       style: TextStyle(color: Colors.grey.shade500),
                     ),
                     IconButton(onPressed: () {}, icon: Icon(Icons.edit, color: Colors.grey.shade500,))
                   ],
                 ),
-                Text('example'),
+                Text('usename', style: TextStyle(color: Colors.grey.shade700),),
               ],
             ),
           ),
