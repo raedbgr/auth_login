@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         _myController.signIn(
-                            _emailController.text, _pwdController.text, context);
+                            _emailController.text.trim(), _pwdController.text.trim(), context);
                       }
                     },
                     child: Container(
@@ -130,29 +130,29 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 25),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 25),
-                    child: Row(
-                      children: [
-                        Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                        const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Text('Or login with'),
-                        ),
-                        Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 25,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      MySquareTile(imagePath: '/Google.png',),
-                      SizedBox(width: 25,),
-                      MySquareTile(imagePath: '/Facebook.png'),
-                    ],
-                  ),
+                  // const SizedBox(height: 25),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                  //   child: Row(
+                  //     children: [
+                  //       Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
+                  //       const Padding(
+                  //         padding: EdgeInsets.all(10),
+                  //         child: Text('Or login with'),
+                  //       ),
+                  //       Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
+                  //     ],
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 25,),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: const [
+                  //     MySquareTile(imagePath: '/Google.png',),
+                  //     SizedBox(width: 25,),
+                  //     MySquareTile(imagePath: '/Facebook.png'),
+                  //   ],
+                  // ),
                   const SizedBox(height: 25),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     Text(

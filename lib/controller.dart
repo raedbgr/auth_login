@@ -1,4 +1,5 @@
 import 'package:auth_login/Models/user.dart';
+import 'package:auth_login/auth/verify_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,23 +20,24 @@ class MyController extends GetxController {
           );
         });
     try {
-      final credential =
+      UserCredential userCredential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
         password: password,
       );
 
+      User? userCred = userCredential.user;
+      await userCred?.sendEmailVerification();
+
       DateTime dateTime = DateTime.now();
       String formatedDateTime =
       DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
 
-      currentUser.isAdmin = false;
       currentUser.username = username;
       currentUser.email = emailAddress;
       currentUser.pwd = password;
       currentUser.date = formatedDateTime;
-      currentUser.coins = 10;
-      userList.add(currentUser);
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         const snackBar = SnackBar(content: Text('The password provided is too weak.'));
@@ -47,8 +49,9 @@ class MyController extends GetxController {
     } catch (e) {
       print(e);
     }
+    Get.back();
+    Get.to(VerifyPage());
 
-    Navigator.pop(ctx);
   }
 
   signIn(String emailAddress, String password, ctx) async {
@@ -61,7 +64,7 @@ class MyController extends GetxController {
         });
 
     try {
-      final credential = await FirebaseAuth.instance
+      UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -93,4 +96,5 @@ class MyController extends GetxController {
       ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
     }
   }
+
 }

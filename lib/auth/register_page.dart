@@ -1,4 +1,5 @@
 import 'package:auth_login/auth/login_page.dart';
+import 'package:auth_login/auth/verify_page.dart';
 import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
@@ -94,13 +95,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     const SizedBox(height: 25),
                     MaterialButton(
                       onPressed: () {
-                        if (_usernameController.text.isEmpty && _emailController.text.isEmpty && _pwdController.text.isEmpty) {
+                        if (_usernameController.text.isEmpty || _emailController.text.isEmpty || _pwdController.text.isEmpty) {
                           const snackBar = SnackBar(content: Text('Please enter your fields !'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         } else {
                           _myController.signUp(_usernameController.text,
-                              _emailController.text, _pwdController.text, context);
-                          Get.offAll(LoginPage());
+                              _emailController.text.trim(), _pwdController.text.trim(), context);
                         }
                       },
                       child: Container(
@@ -121,29 +121,29 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 25),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25),
-                      child: Row(
-                        children: [
-                          Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Text('Or login with'),
-                          ),
-                          Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 25,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        MySquareTile(imagePath: '/Google.png',),
-                        SizedBox(width: 25,),
-                        MySquareTile(imagePath: '/Facebook.png'),
-                      ],
-                    ),
+                    // const SizedBox(height: 25),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 25),
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
+                    //       const Padding(
+                    //         padding: EdgeInsets.all(10),
+                    //         child: Text('Or login with'),
+                    //       ),
+                    //       Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
+                    //     ],
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 25,),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: const [
+                    //     MySquareTile(imagePath: '/Google.png',),
+                    //     SizedBox(width: 25,),
+                    //     MySquareTile(imagePath: '/Facebook.png'),
+                    //   ],
+                    // ),
                     const SizedBox(height: 25),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text(
