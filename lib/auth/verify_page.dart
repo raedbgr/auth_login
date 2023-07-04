@@ -39,8 +39,7 @@ class _VerifyPageState extends State<VerifyPage> {
       final user = FirebaseAuth.instance.currentUser!;
       await user.sendEmailVerification();
     } catch (e) {
-      final snackBar = SnackBar(content: Text(e.toString()));
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      print(e);
     }
   }
 

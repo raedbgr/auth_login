@@ -1,9 +1,12 @@
+import 'package:auth_login/controller.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;
+  MyController myController = Get.put(MyController());
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +40,22 @@ class Profile extends StatelessWidget {
           ),
           const SizedBox(height: 50,),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
-            child: Text(
-              'My Details',
-              style: TextStyle(color: Colors.grey.shade600),
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'My Details',
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+                Row(
+                  children: [
+                    Text('10', style: TextStyle(color: Colors.grey.shade600),),
+                    const SizedBox(width: 5,),
+                    Icon(Icons.monetization_on_outlined, color: Colors.grey.shade900,),
+                  ],
+                )
+              ],
             ),
           ),
           const SizedBox(height: 10,),
@@ -49,7 +64,7 @@ class Profile extends StatelessWidget {
               color: Colors.grey.shade200,
               borderRadius: BorderRadius.circular(10),
             ),
-            padding: const EdgeInsets.only(left: 15, bottom: 15),
+            padding: const EdgeInsets.all(15),
             margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,13 +73,20 @@ class Profile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'username',
+                      'username :',
                       style: TextStyle(color: Colors.grey.shade500),
                     ),
                     IconButton(onPressed: () {}, icon: Icon(Icons.edit, color: Colors.grey.shade500,))
                   ],
                 ),
-                Text('usename', style: TextStyle(color: Colors.grey.shade700),),
+                Text('username', style: TextStyle(color: Colors.grey.shade700),),
+                const SizedBox(height: 150,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('myController.currentUser.uid!',style: TextStyle(color: Colors.grey.shade500),),
+                  ],
+                ),
               ],
             ),
           ),

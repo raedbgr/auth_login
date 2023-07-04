@@ -1,5 +1,5 @@
 class ALuser {
-  String? id;
+  String? uid;
   bool isAdmin;
   String? username;
   String? email;
@@ -8,7 +8,7 @@ class ALuser {
   int? coins;
 
   ALuser({
-    this.id,
+    this.uid,
     this.isAdmin = false,
     this.username,
     this.email,
@@ -19,7 +19,7 @@ class ALuser {
 
   factory ALuser.fromJson(Map<String, dynamic> json) {
     return ALuser(
-      id: json['id'],
+      uid: json['uid'],
       isAdmin: json['isAdmin'],
       username: json['username'],
       email: json['email'],
@@ -31,7 +31,7 @@ class ALuser {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'uid': uid,
       'isAdmin': isAdmin,
       'username': username,
       'email': email,

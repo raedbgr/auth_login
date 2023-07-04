@@ -1,5 +1,6 @@
 import 'package:auth_login/Models/user.dart';
 import 'package:auth_login/auth/verify_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,10 +34,28 @@ class MyController extends GetxController {
       String formatedDateTime =
       DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
 
+      CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+
+      usersRef.add({
+        'uid': usersRef.id,
+        'isAdmin': false,
+        'username': username,
+        'email': emailAddress,
+        'pwd': password,
+        'date': formatedDateTime,
+        'coins': 0,
+      });
+
+      currentUser.uid = usersRef.id;
+      currentUser.isAdmin = false;
       currentUser.username = username;
       currentUser.email = emailAddress;
       currentUser.pwd = password;
       currentUser.date = formatedDateTime;
+      currentUser.coins = 0;
+      userList.add(currentUser);
+      print(currentUser);
+
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
