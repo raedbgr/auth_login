@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:auth_login/Models/user.dart';
 import 'package:auth_login/auth/verify_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,10 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import 'home/home_page.dart';
+
 class MyController extends GetxController {
   List<ALuser> userList = <ALuser>[];
   ALuser currentUser = ALuser();
   final user = FirebaseAuth.instance.currentUser;
+  bool isVerified = false;
+  Timer? timer;
 
 
   signUp(String username, String emailAddress, String password, ctx) async {
@@ -30,6 +35,7 @@ class MyController extends GetxController {
       User? userCred = userCredential.user;
       await userCred?.sendEmailVerification();
 
+      // from here
       DateTime dateTime = DateTime.now();
       String formatedDateTime =
       DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
@@ -43,7 +49,7 @@ class MyController extends GetxController {
         'email': emailAddress,
         'pwd': password,
         'date': formatedDateTime,
-        'coins': 0,
+        'coins': 10,
       });
 
       currentUser.uid = usersRef.id;
@@ -55,7 +61,7 @@ class MyController extends GetxController {
       currentUser.coins = 0;
       userList.add(currentUser);
       print(currentUser);
-
+      // to here
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -70,7 +76,6 @@ class MyController extends GetxController {
     }
     Get.back();
     Get.to(VerifyPage());
-
   }
 
   signIn(String emailAddress, String password, ctx) async {
@@ -94,8 +99,8 @@ class MyController extends GetxController {
         ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       }
     }
-
-    Navigator.pop(ctx);
+    Get.back();
+    Get.offAll(HomePage());
   }
 
   Future resetPasswrd (String emailAddress, ctx, controller) async {
@@ -113,6 +118,28 @@ class MyController extends GetxController {
     } on FirebaseAuthException catch (e) {
       final snackBar = SnackBar(content: Text(e.message.toString()));
       ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
+    }
+  }
+
+  sendVerification () async {
+    try {
+      final user = FirebaseAuth.instance.currentUser!;
+      await user.sendEmailVerification();
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future checkEmailVerified () async{
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      await currentUser.reload();
+      isVerified = currentUser.emailVerified;
+      update();
+      if (isVerified) {
+        timer?.cancel();
+        Get.offAll(HomePage());
+      };
     }
   }
 

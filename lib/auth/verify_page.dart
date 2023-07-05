@@ -12,50 +12,26 @@ class VerifyPage extends StatefulWidget {
 
 class _VerifyPageState extends State<VerifyPage> {
   final MyController myController = Get.put(MyController());
-  bool isVerified = false;
-  Timer? timer;
 
   @override
   void initState () {
     super.initState();
     final currentUser = FirebaseAuth.instance.currentUser;
     if (currentUser != null) {
-      isVerified = currentUser.emailVerified;
-      if (!isVerified) {
-        sendVerification();
-        timer = Timer.periodic(Duration(seconds: 3), (timer) => checkEmailVerified());
+      myController.isVerified = currentUser.emailVerified;
+      if (!myController.isVerified) {
+        myController.sendVerification();
+        myController.timer = Timer.periodic(Duration(seconds: 3), (timer) => myController.checkEmailVerified());
       }
     }
   }
 
   @override
   void Dispose () {
-    timer?.cancel();
+    myController.timer?.cancel();
     super.dispose();
   }
 
-  sendVerification () async {
-    try {
-      final user = FirebaseAuth.instance.currentUser!;
-      await user.sendEmailVerification();
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  Future checkEmailVerified () async{
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      await currentUser.reload();
-      setState(() {
-        isVerified = currentUser.emailVerified;
-      });
-      if (isVerified) {
-        timer?.cancel();
-        Get.offAll(HomePage());
-      };
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +73,7 @@ class _VerifyPageState extends State<VerifyPage> {
                 ),
                 MaterialButton(
                     onPressed: (){
-                      sendVerification();
+                      myController.sendVerification();
                     },
                   child: Container(
                     width: 250,

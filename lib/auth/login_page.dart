@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
                         _myController.signIn(
-                            _emailController.text.trim(), _pwdController.text.trim(), context);
+                            _emailController.text, _pwdController.text, context);
                       }
                     },
                     child: Container(
