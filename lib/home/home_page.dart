@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                           );
                         });
                         await FirebaseAuth.instance.signOut();
-                        Navigator.pop(context);
+                        Get.back();
                       },
                     )
                   ],

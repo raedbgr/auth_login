@@ -1,12 +1,9 @@
 import 'package:auth_login/auth/login_page.dart';
-import 'package:auth_login/auth/verify_page.dart';
 import 'package:auth_login/components/animated_text.dart';
 import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../components/square_tile.dart';
 
 class RegisterPage extends StatefulWidget {
   @override

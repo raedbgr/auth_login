@@ -41,7 +41,7 @@ class _ForgotPassPageState extends State<ForgotPassPage> {
                   const SizedBox(height: 25,),
                   MaterialButton(
                     onPressed: () {
-                      _myController.resetPasswrd(_emailController.text, context, _emailController);
+                      _myController.resetPassword(_emailController.text, context, _emailController);
                     },
                     child: Container(
                       width: 250,

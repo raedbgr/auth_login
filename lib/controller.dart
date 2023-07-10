@@ -15,16 +15,17 @@ class MyController extends GetxController {
   final user = FirebaseAuth.instance.currentUser;
   bool isVerified = false;
   Timer? timer;
-
+  ALuser currentAuthUser = ALuser();
 
   signUp(String username, String emailAddress, String password, ctx) async {
     showDialog(
-        context: ctx,
-        builder: (_) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+      context: ctx,
+      builder: (_) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
     try {
       UserCredential userCredential =
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -35,40 +36,43 @@ class MyController extends GetxController {
       User? userCred = userCredential.user;
       await userCred?.sendEmailVerification();
 
-      // from here
       DateTime dateTime = DateTime.now();
-      String formatedDateTime =
-      DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
+      String formattedDateTime = DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
 
-      CollectionReference usersRef = FirebaseFirestore.instance.collection('users');
+      CollectionReference usersRef =
+      FirebaseFirestore.instance.collection('users');
 
-      usersRef.add({
-        'uid': usersRef.id,
+      DocumentReference userDocRef = usersRef.doc(); // Create a document reference
+
+      String uid = userDocRef.id;
+
+      await userDocRef.set({
+        'uid': uid, // Include the UID in the document
         'isAdmin': false,
         'username': username,
         'email': emailAddress,
         'pwd': password,
-        'date': formatedDateTime,
+        'date': formattedDateTime,
         'coins': 10,
       });
 
-      currentUser.uid = usersRef.id;
+      currentUser.uid = uid;
       currentUser.isAdmin = false;
       currentUser.username = username;
       currentUser.email = emailAddress;
       currentUser.pwd = password;
-      currentUser.date = formatedDateTime;
-      currentUser.coins = 0;
+      currentUser.date = formattedDateTime;
+      currentUser.coins = 10;
       userList.add(currentUser);
-      print(currentUser);
-      // to here
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        const snackBar = SnackBar(content: Text('The password provided is too weak.'));
+        const snackBar =
+        SnackBar(content: Text('The password provided is too weak.'));
         ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       } else if (e.code == 'email-already-in-use') {
-        const snackBar = SnackBar(content: Text('The account already exists for that email.'));
+        const snackBar = SnackBar(
+            content: Text('The account already exists for that email.'));
         ScaffoldMessenger.of(ctx).showSnackBar(snackBar);
       }
     } catch (e) {
@@ -76,6 +80,31 @@ class MyController extends GetxController {
     }
     Get.back();
     Get.to(VerifyPage());
+  }
+
+  fetchCurrentAuthUser() async {
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final QuerySnapshot snapshot = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: user.email)
+            .get();
+
+        if (snapshot.docs.isNotEmpty) {
+          final DocumentSnapshot userDoc = snapshot.docs.first;
+          currentAuthUser.uid = userDoc['uid'];
+          currentAuthUser.isAdmin = userDoc['isAdmin'];
+          currentAuthUser.username = userDoc['username'];
+          currentAuthUser.email = userDoc['email'];
+          currentAuthUser.pwd = userDoc['pwd'];
+          currentAuthUser.date = userDoc['date'];
+          currentAuthUser.coins = userDoc['coins'];
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 
   signIn(String emailAddress, String password, ctx) async {
@@ -90,6 +119,7 @@ class MyController extends GetxController {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
+      fetchCurrentAuthUser();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         const snackBar = SnackBar(content: Text('No user found for that email.'));
@@ -103,7 +133,7 @@ class MyController extends GetxController {
     Get.offAll(HomePage());
   }
 
-  Future resetPasswrd (String emailAddress, ctx, controller) async {
+  Future resetPassword (String emailAddress, ctx, controller) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: emailAddress);
       showDialog(
@@ -139,8 +169,7 @@ class MyController extends GetxController {
       if (isVerified) {
         timer?.cancel();
         Get.offAll(HomePage());
-      };
+      }
     }
   }
-
 }

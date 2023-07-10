@@ -1,5 +1,4 @@
 import 'package:auth_login/controller.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -33,7 +32,7 @@ class Profile extends StatelessWidget {
           const SizedBox(height: 10,),
           Center(
             child: Text(
-              user!.email!,
+              '${myController.currentAuthUser.email}',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey.shade700),
             ),
@@ -50,7 +49,7 @@ class Profile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('10', style: TextStyle(color: Colors.grey.shade600),),
+                    Text('${myController.currentAuthUser.coins}', style: TextStyle(color: Colors.grey.shade600),),
                     const SizedBox(width: 5,),
                     Icon(Icons.monetization_on_outlined, color: Colors.grey.shade900,),
                   ],
@@ -79,12 +78,12 @@ class Profile extends StatelessWidget {
                     IconButton(onPressed: () {}, icon: Icon(Icons.edit, color: Colors.grey.shade500,))
                   ],
                 ),
-                Text('username', style: TextStyle(color: Colors.grey.shade700),),
+                Text('${myController.currentAuthUser.username}', style: TextStyle(color: Colors.grey.shade700),),
                 const SizedBox(height: 150,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text('myController.currentUser.uid!',style: TextStyle(color: Colors.grey.shade500),),
+                    Text('${myController.currentAuthUser.uid}',style: TextStyle(color: Colors.grey.shade500),),
                   ],
                 ),
               ],

@@ -1,7 +1,6 @@
 import 'package:auth_login/auth/forgot_password_page.dart';
 import 'package:auth_login/auth/register_page.dart';
 import 'package:auth_login/components/animated_text.dart';
-import 'package:auth_login/components/square_tile.dart';
 import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 25),
                   MaterialButton(
                     onPressed: () {
-                      if (_emailController.text.isEmpty && _pwdController.text.isEmpty) {
+                      if (_emailController.text.isEmpty || _pwdController.text.isEmpty) {
                         const snackBar = SnackBar(content: Text('Please enter your fields !'));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       } else {
