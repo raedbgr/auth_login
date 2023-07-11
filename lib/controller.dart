@@ -34,9 +34,13 @@ class MyController extends GetxController {
         email: emailAddress,
         password: password,
       );
+
       name = username;
       email = emailAddress;
       pwd = password;
+
+      User? userCred = userCredential.user;
+      await userCred?.sendEmailVerification();
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

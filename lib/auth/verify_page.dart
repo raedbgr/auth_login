@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:auth_login/controller.dart';
-import 'package:auth_login/home/home_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,13 +20,13 @@ class _VerifyPageState extends State<VerifyPage> {
       myController.isVerified = currentUser.emailVerified;
       if (!myController.isVerified) {
         myController.sendVerification();
-        myController.timer = Timer.periodic(Duration(seconds: 3), (timer) => myController.checkEmailVerified());
+        myController.timer = Timer.periodic(const Duration(seconds: 3), (timer) => myController.checkEmailVerified());
       }
     }
   }
 
   @override
-  void Dispose () {
+  void dispose () {
     myController.timer?.cancel();
     super.dispose();
   }
@@ -43,7 +42,7 @@ class _VerifyPageState extends State<VerifyPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.drafts_outlined,
                   size: 100,
                 ),

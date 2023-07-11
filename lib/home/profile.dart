@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class Profile extends StatelessWidget {
   final user = FirebaseAuth.instance.currentUser;
-  MyController myController = Get.put(MyController());
+  final MyController myController = Get.put(MyController());
 
   @override
   Widget build(BuildContext context) {

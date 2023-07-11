@@ -1,3 +1,4 @@
+import 'package:auth_login/auth/login_page.dart';
 import 'package:auth_login/controller.dart';
 import 'package:auth_login/home/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -55,6 +56,7 @@ class _HomePageState extends State<HomePage> {
                         });
                         await FirebaseAuth.instance.signOut();
                         Get.back();
+                        Get.offAll(LoginPage());
                       },
                     )
                   ],
