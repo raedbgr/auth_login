@@ -19,17 +19,23 @@ class Profile extends StatelessWidget {
             onPressed: () {
               Get.back();
             },
-            icon: const Icon(Icons.arrow_back)
-        ),
+            icon: const Icon(Icons.arrow_back)),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 50,),
-          const Center(
-            child: Icon(Icons.person, size: 120,),
+          const SizedBox(
+            height: 100,
           ),
-          const SizedBox(height: 10,),
+          const Center(
+            child: Icon(
+              Icons.person,
+              size: 120,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
           Center(
             child: Text(
               '${myController.currentAuthUser.email}',
@@ -37,7 +43,9 @@ class Profile extends StatelessWidget {
               style: TextStyle(color: Colors.grey.shade700),
             ),
           ),
-          const SizedBox(height: 50,),
+          const SizedBox(
+            height: 50,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Row(
@@ -49,15 +57,25 @@ class Profile extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('${myController.currentAuthUser.coins}', style: TextStyle(color: Colors.grey.shade600),),
-                    const SizedBox(width: 5,),
-                    Icon(Icons.monetization_on_outlined, color: Colors.grey.shade900,),
+                    Text(
+                      '${myController.currentAuthUser.coins}',
+                      style: TextStyle(color: Colors.grey.shade600),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Icon(
+                      Icons.monetization_on_outlined,
+                      color: Colors.grey.shade900,
+                    ),
                   ],
                 )
               ],
             ),
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
             decoration: BoxDecoration(
               color: Colors.grey.shade200,
@@ -65,26 +83,42 @@ class Profile extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(15),
             margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'username :',
                       style: TextStyle(color: Colors.grey.shade500),
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit, color: Colors.grey.shade500,))
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      '${myController.currentAuthUser.username}',
+                      style: TextStyle(color: Colors.grey.shade700),
+                    ),
                   ],
                 ),
-                Text('${myController.currentAuthUser.username}', style: TextStyle(color: Colors.grey.shade700),),
-                const SizedBox(height: 150,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text('${myController.currentAuthUser.uid}',style: TextStyle(color: Colors.grey.shade500),),
-                  ],
+                IconButton(
+                    onPressed: () {},
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.grey.shade700,
+                    ))
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 25, top: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  '${myController.currentAuthUser.uid}',
+                  style: TextStyle(color: Colors.grey.shade500),
                 ),
               ],
             ),

@@ -32,7 +32,6 @@ class _VerifyPageState extends State<VerifyPage> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

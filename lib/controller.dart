@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
 import 'home/home_page.dart';
 
 class MyController extends GetxController {
@@ -16,6 +15,9 @@ class MyController extends GetxController {
   bool isVerified = false;
   Timer? timer;
   ALuser currentAuthUser = ALuser();
+  String? name;
+  String? email;
+  String? pwd;
 
   signUp(String username, String emailAddress, String password, ctx) async {
     showDialog(
@@ -32,38 +34,9 @@ class MyController extends GetxController {
         email: emailAddress,
         password: password,
       );
-
-      User? userCred = userCredential.user;
-      await userCred?.sendEmailVerification();
-
-      DateTime dateTime = DateTime.now();
-      String formattedDateTime = DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
-
-      CollectionReference usersRef =
-      FirebaseFirestore.instance.collection('users');
-
-      DocumentReference userDocRef = usersRef.doc(); // Create a document reference
-
-      String uid = userDocRef.id;
-
-      await userDocRef.set({
-        'uid': uid, // Include the UID in the document
-        'isAdmin': false,
-        'username': username,
-        'email': emailAddress,
-        'pwd': password,
-        'date': formattedDateTime,
-        'coins': 10,
-      });
-
-      currentUser.uid = uid;
-      currentUser.isAdmin = false;
-      currentUser.username = username;
-      currentUser.email = emailAddress;
-      currentUser.pwd = password;
-      currentUser.date = formattedDateTime;
-      currentUser.coins = 10;
-      userList.add(currentUser);
+      name = username;
+      email = emailAddress;
+      pwd = password;
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -80,6 +53,37 @@ class MyController extends GetxController {
     }
     Get.back();
     Get.to(VerifyPage());
+  }
+
+  addUserDoc() async {
+    DateTime dateTime = DateTime.now();
+    String formattedDateTime = DateFormat('yy-MM-dd HH:mm:ss').format(dateTime);
+
+    CollectionReference usersRef =
+    FirebaseFirestore.instance.collection('users');
+
+    DocumentReference userDocRef = usersRef.doc(); // Create a document reference
+
+    String uid = userDocRef.id;
+
+    await userDocRef.set({
+      'uid': uid, // Include the UID in the document
+      'isAdmin': false,
+      'username': name,
+      'email': email,
+      'pwd': pwd,
+      'date': formattedDateTime,
+      'coins': 10,
+    });
+
+    currentUser.uid = uid;
+    currentUser.isAdmin = false;
+    currentUser.username = name;
+    currentUser.email = email;
+    currentUser.pwd = pwd;
+    currentUser.date = formattedDateTime;
+    currentUser.coins = 10;
+    userList.add(currentUser);
   }
 
   fetchCurrentAuthUser() async {
@@ -119,7 +123,6 @@ class MyController extends GetxController {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
-      fetchCurrentAuthUser();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         const snackBar = SnackBar(content: Text('No user found for that email.'));
@@ -168,6 +171,8 @@ class MyController extends GetxController {
       update();
       if (isVerified) {
         timer?.cancel();
+        addUserDoc();
+        fetchCurrentAuthUser();
         Get.offAll(HomePage());
       }
     }
