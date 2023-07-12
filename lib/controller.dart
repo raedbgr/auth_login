@@ -41,6 +41,8 @@ class MyController extends GetxController {
 
       User? userCred = userCredential.user;
       await userCred?.sendEmailVerification();
+      Get.back();
+      Get.to(VerifyPage());
 
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -55,8 +57,6 @@ class MyController extends GetxController {
     } catch (e) {
       print(e);
     }
-    Get.back();
-    Get.to(VerifyPage());
   }
 
   addUserDoc() async {
