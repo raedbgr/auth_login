@@ -13,7 +13,12 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
   final MyController myController = Get.put(MyController());
-  final TextEditingController _usernameController = TextEditingController();
+
+  @override
+  void initState () {
+    super.initState();
+    myController.fetchCurrentAuthUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,9 +117,14 @@ class _ProfileState extends State<Profile> {
                 ),
                 IconButton(
                     onPressed: () {
-                      showDialog(context: context, builder: (_) {
-                        return MyDialog();
-                      });
+                      if (myController.currentAuthUser.coins != null && myController.currentAuthUser.coins! > 3) {
+                        showDialog(context: context, builder: (_) {
+                          return MyDialog();
+                        });
+                      } else {
+                        const snackBar = SnackBar(content: Text('You don\'t have enough coins'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
                     },
                     icon: Icon(
                       Icons.edit,
