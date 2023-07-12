@@ -1,11 +1,19 @@
+import 'package:auth_login/components/alert_dialog.dart';
+import 'package:auth_login/components/text_field.dart';
 import 'package:auth_login/controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Profile extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
   final user = FirebaseAuth.instance.currentUser;
   final MyController myController = Get.put(MyController());
+  final TextEditingController _usernameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +111,11 @@ class Profile extends StatelessWidget {
                   ],
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(context: context, builder: (_) {
+                        return MyDialog();
+                      });
+                    },
                     icon: Icon(
                       Icons.edit,
                       color: Colors.grey.shade700,

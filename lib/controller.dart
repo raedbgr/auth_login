@@ -181,4 +181,35 @@ class MyController extends GetxController {
       }
     }
   }
+
+  updateUsername(String newUsername) async {
+    try {
+      final User? user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        // Update the username in the Firestore document
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({'username': newUsername});
+
+        // Update the username in the userList
+        final ALuser? loggedInUser = userList.firstWhere(
+              (ALuser user) => user.uid == user.uid
+        );
+
+        if (loggedInUser != null) {
+          loggedInUser.username = newUsername;
+        }
+
+        // Update the currentAuthUser if the current user matches
+        if (currentAuthUser.uid == user.uid) {
+          currentAuthUser.username = newUsername;
+        }
+
+        update(); // Notify GetX that the data has changed
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 }
